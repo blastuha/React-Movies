@@ -12,16 +12,20 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix`)
+    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix`)
       .then((response) => response.json())
       .then((data) => this.setState({ movies: data.Search, loading: false }))
+      .catch((err) => {
+        console.error(err)
+        this.setState({ loading: false })
+      })
   }
 
   searchMovies = (str, type = 'all') => {
     this.setState({ loading: true })
     // в ссылке сначала идёт s, а потом type
     fetch(
-      `http://www.omdbapi.com/?apikey=${API_KEY}&s=${str}${
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${str}${
         type !== 'all' ? `&type=${type}` : ''
       }`
     )
